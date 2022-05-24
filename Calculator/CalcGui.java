@@ -28,8 +28,8 @@ public class CalcGui extends JFrame {
             this.setLayout(new GridLayout(1,1));
             this.setSize(300,500);
             this.setTitle("Calculator");
-
-            byte []  f =  new FileInputStream(new File(new File("").getAbsolutePath()+"\\Calculator\\calcIco.png")).readAllBytes();
+       
+            byte []  f =  new FileInputStream(new File(System.getProperty("user.dir")+"\\Calculator\\calcIco.png")).readAllBytes();
            
             this.setIconImage((new ImageIcon(f)).getImage());
             this.setLocation(new Point(400,50));
