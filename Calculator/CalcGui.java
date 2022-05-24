@@ -1,5 +1,6 @@
 package Calculator;
 
+import javax.net.*;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.InsetsUIResource;
@@ -13,6 +14,9 @@ import java.awt.Point;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.awt.Insets;
 import java.awt.GridBagConstraints;
 import java.awt.event.*;
@@ -20,13 +24,14 @@ public class CalcGui extends JFrame {
 
     private MainPanle       mainPanel;
 
-    public CalcGui(){
+    public CalcGui() throws FileNotFoundException, IOException{
             this.setLayout(new GridLayout(1,1));
             this.setSize(300,500);
             this.setTitle("Calculator");
-     
-     
-            this.setIconImage((new ImageIcon(CalcGui.class.getResource("calcIco.ico"))).getImage());
+
+            byte []  f =  new FileInputStream(new File(new File("").getAbsolutePath()+"\\Calculator\\calcIco.png")).readAllBytes();
+           
+            this.setIconImage((new ImageIcon(f)).getImage());
             this.setLocation(new Point(400,50));
             mainPanel =  new MainPanle(this);
             this.add(mainPanel);
@@ -37,7 +42,7 @@ public class CalcGui extends JFrame {
             
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException , IOException {
         CalcGui calculator =  new CalcGui();
         
     }
