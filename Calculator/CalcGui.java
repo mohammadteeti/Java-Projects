@@ -29,6 +29,7 @@ public class CalcGui extends JFrame {
             this.setSize(300,500);
             this.setTitle("Calculator");
        
+            //Fix Application Path Using System.getProperty("user.dir");
             byte []  f =  new FileInputStream(new File(System.getProperty("user.dir")+"\\Calculator\\calcIco.png")).readAllBytes();
            
             this.setIconImage((new ImageIcon(f)).getImage());
@@ -38,18 +39,68 @@ public class CalcGui extends JFrame {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.revalidate();
             this.setVisible(true);
-
-            
-    }
+        }
 
     public static void main(String[] args) throws FileNotFoundException , IOException {
         CalcGui calculator =  new CalcGui();
         
     }
 
+    /**
+     * here is writen all the calculation code 
+     */
+
+    private static String operand1;
+    private static String operand2;
+    private static String operation;
+
+    public static void calculate (String input ,JTextField txt){
+       String  prevInput = txt.getText();
+       operand1=prevInput;
+       switch(input){
+
+        case "1": case "2": case "3": case "4": case "5":
+        case "6": case "7": case "8": case "9": case "0":
+            operand2 +=input;
+        break;
+
+        case ".":
+            operand2+=prevInput.contains(".")?"":input;
+
+        break;
+
+        case "+":
+            operand1=operand1==null?"0":operand1;
+            operand1 = ""+ (Double.valueOf(operand1) +Double.valueOf(operand2));
+            txt.setText(operand1);
+        break;
+        case "-": 
+            operand1=operand1==null?"0":operand1;
+            operand1 = ""+ (Double.valueOf(operand1) - Double.valueOf(operand2));
+            txt.setText(operand1);
+        break;
+        case "×":
+            operand1=operand1==null?"1":operand1;
+            operand1 = ""+ (Double.valueOf(operand1) * Double.valueOf(operand2));
+            txt.setText(operand1);
+        break; 
+        case "\\":
+            operand1=operand1==null?"1":operand1;
+            operand1 = ""+ (Double.valueOf(operand1) / Double.valueOf(operand2));
+            txt.setText(operand1); 
+        break;
+        case "(": 
+        break;
+        case ")":
+          
+        break;
+
+     
+    }
 
 
     
+}
 }
 class MainPanle extends JPanel {
 
@@ -160,7 +211,7 @@ class ButtonPanel extends JPanel{
     private JButton btnCloseBracket =   new JButton(")");
     private JButton btnBack =   new JButton("<");
     private JButton btnReset =   new JButton("C");
-
+    private JButton btnPoint =   new JButton(".");
     public ButtonPanel (Component parent,JTextField textField){
 
         this.setLayout(new GridLayout(4,5));
@@ -182,8 +233,7 @@ class ButtonPanel extends JPanel{
         this.add(btnCloseBracket);
         this.add(btnZero);
         this.add(btnEqual);
-        JButton btn =  new JButton("");
-        this.add(btn);
+        this.add(btnPoint);
         this.add(btnMultpy);
         this.add(btnDivision);
         
@@ -204,6 +254,7 @@ class ButtonPanel extends JPanel{
                         case "6": case "7": case "8": case "9": case "0":
                         case "+": case "-": case "×": case "\\": case "(": case ")":
                             textField.setText(textField.getText()+button.getText());
+                            CalcGui.calculate(button.getText(), textField);
                         break;
 
                         case "C":
@@ -217,6 +268,13 @@ class ButtonPanel extends JPanel{
                         s=s.substring(0, l-1);
                         textField.setText(s);
                         }
+                        break;
+
+                        case ".":
+                        if (textField.getText().equals(""))
+                            textField.setText(0+".");
+                        if (textField.getText().contains("."))
+                            break;
                         break;
 
                         
